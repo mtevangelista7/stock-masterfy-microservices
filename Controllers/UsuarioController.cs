@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StockMasterfyAPI.Models;
 using StockMasterfyAPI.Services;
 
 namespace StockMasterfyAPI.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("/api/[controller]")]
     public class UsuarioController : ControllerBase
     {
         private readonly IUsuarioService _usuarioService;
@@ -16,9 +17,17 @@ namespace StockMasterfyAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetAll()
         {
             var result = await _usuarioService.RetornaUsuarios();
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RetornaUsuarioLoginSenha([FromBody] Usuario usuario)
+        {
+            var result = await _usuarioService.RetornaUsuarioLoginSenha(usuario);
 
             return Ok(result);
         }

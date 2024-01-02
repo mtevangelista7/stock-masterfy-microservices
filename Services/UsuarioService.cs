@@ -21,5 +21,14 @@ namespace StockMasterfyAPI.Services
                 await _dbService.RetornaTodos<Usuario>(" SELECT * FROM USUARIOS ", new { });
             return resultado;
         }
+
+        public async Task<Usuario> RetornaUsuarioLoginSenha(Usuario usuario)
+        {
+            var result =
+                await _dbService.RetornaPrimeiro<Usuario>(
+                    "SELECT * FROM USUARIOS WHERE ds_login = @dslogin and ds_senha = @dssenha",
+                    new {usuario.Dslogin, usuario.Dssenha});
+            return result;
+        }
     }
 }

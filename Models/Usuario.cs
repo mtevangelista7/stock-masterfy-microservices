@@ -4,5 +4,5 @@ namespace StockMasterfyAPI.Models
 {
 
     [Table("usuarios")]
-    public record Usuario(int id, string nome, string login, string senha);
+    public record Usuario(int Id, string Dsnome, string Dslogin, string Dssenha);
 }

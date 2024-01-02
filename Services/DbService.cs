@@ -22,5 +22,12 @@ namespace StockMasterfyAPI.Services
 
             return result;
         }
+
+        public async Task<T> RetornaPrimeiro<T>(string querySQL, object parametros)
+        {
+            var result = await _db.QueryFirstOrDefaultAsync<T>(querySQL, parametros);
+
+            return result;
+        }
     }
 }
