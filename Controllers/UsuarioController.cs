@@ -3,21 +3,22 @@ using StockMasterfyAPI.Services;
 
 namespace StockMasterfyAPI.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
-    public class UsuarioController : Controller
+    public class UsuarioController : ControllerBase
     {
         private readonly IUsuarioService _usuarioService;
 
-        public UsuarioController(IUsuarioService employeeService)
+        // construtor com o serviço de usuario
+        public UsuarioController(IUsuarioService usuarioService)
         {
-            _usuarioService = employeeService;
+            _usuarioService = usuarioService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var result = await _usuarioService.RetornaUsuario();
+            var result = await _usuarioService.RetornaUsuarios();
 
             return Ok(result);
         }

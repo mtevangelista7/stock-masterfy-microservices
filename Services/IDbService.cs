@@ -2,6 +2,6 @@
 {
     public interface IDbService
     {
-        Task<List<T>> GetAll<T>(string command, object parms);
+        Task<List<T>> RetornaTodos<T>(string querySQL, object parametros);
     }
 }

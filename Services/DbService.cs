@@ -11,14 +11,14 @@ namespace StockMasterfyAPI.Services
 
         public DbService(IConfiguration configuration)
         {
-            _db = new NpgsqlConnection(configuration.GetConnectionString("Employeedb"));
+            _db = new NpgsqlConnection(configuration.GetConnectionString("PostgreSQLConnection"));
         }
 
-        public async Task<List<T>> GetAll<T>(string command, object parms)
+        public async Task<List<T>> RetornaTodos<T>(string querySQL, object parametros)
         {
             List<T> result = new List<T>();
 
-            result = (await _db.QueryAsync<T>(command, parms)).ToList();
+            result = (await _db.QueryAsync<T>(querySQL, parametros)).ToList();
 
             return result;
         }

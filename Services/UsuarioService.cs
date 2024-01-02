@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using Dapper.Contrib.Extensions;
 using Npgsql;
-using StockMasterfyAPI.Data;
+using StockMasterfyAPI.Models;
 using System.Data;
 
 namespace StockMasterfyAPI.Services
@@ -15,11 +15,11 @@ namespace StockMasterfyAPI.Services
             _dbService = dbService;
         }
 
-        public async Task<List<Usuario>> RetornaUsuario()
+        public async Task<List<Usuario>> RetornaUsuarios()
         {
-            var result =
-                await _dbService.GetAll<Usuario>("", "");
-            return result;
+            var resultado =
+                await _dbService.RetornaTodos<Usuario>(" SELECT * FROM USUARIOS ", new { });
+            return resultado;
         }
     }
 }

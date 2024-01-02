@@ -1,9 +1,10 @@
-﻿using StockMasterfyAPI.Data;
+﻿
+using StockMasterfyAPI.Models;
 
 namespace StockMasterfyAPI.Services
 {
     public interface IUsuarioService
     {
-        Task<List<Usuario>> RetornaUsuario();
+        Task<List<Usuario>> RetornaUsuarios();
     }
 }
