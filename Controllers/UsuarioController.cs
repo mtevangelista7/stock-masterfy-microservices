@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StockMasterfyAPI.Models;
 using StockMasterfyAPI.Services;
+using BCrypt.Net;
 
 namespace StockMasterfyAPI.Controllers
 {
@@ -27,9 +28,25 @@ namespace StockMasterfyAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> RetornaUsuarioLoginSenha([FromBody] Usuario usuario)
         {
-            var result = await _usuarioService.RetornaUsuarioLoginSenha(usuario);
+            if (await LoginValido(usuario.Dslogin, usuario.Dssenha))
+            {
+                Usuario usuarioAux = await _usuarioService.RetornaUsuarioLogin(usuario.Dslogin);
+                return Ok(usuarioAux);
+            }
 
-            return Ok(result);
+            return Unauthorized();
+        }
+
+        private async Task<bool> LoginValido(string login, string senhaDoUsuario)
+        {
+            // Obter hash da senha e salt do banco de dados usando o login
+            string hashSenhaArmazenado = await _usuarioService.RecuperaHashSenhaDoBanco(login);
+            string saltArmazenado = await _usuarioService.RecuperaSaltDoBanco(login);
+
+            // Verificar se a senha fornecida é válida
+            return !string.IsNullOrEmpty(hashSenhaArmazenado) &&
+                   !string.IsNullOrEmpty(saltArmazenado) &&
+                   BCrypt.Net.BCrypt.Verify(senhaDoUsuario, hashSenhaArmazenado + saltArmazenado);
         }
     }
 }

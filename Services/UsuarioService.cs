@@ -22,12 +22,30 @@ namespace StockMasterfyAPI.Services
             return resultado;
         }
 
-        public async Task<Usuario> RetornaUsuarioLoginSenha(Usuario usuario)
+        public async Task<Usuario> RetornaUsuarioLogin(string login)
         {
             var result =
                 await _dbService.RetornaPrimeiro<Usuario>(
-                    "SELECT * FROM USUARIOS WHERE ds_login = @dslogin and ds_senha = @dssenha",
-                    new {usuario.Dslogin, usuario.Dssenha});
+                    "SELECT * FROM USUARIOS WHERE ds_login = @dslogin",
+                    new { login });
+            return result;
+        }
+
+        public async Task<string> RecuperaHashSenhaDoBanco(string login)
+        {
+            var result =
+                await _dbService.RetornaPrimeiro<string>(
+                    "SELECT DS_HASHSENHA FROM Usuarios WHERE DS_LOGIN = @ds_login",
+                    new { login });
+            return result;
+        }
+
+        public async Task<string> RecuperaSaltDoBanco(string login)
+        {
+            var result =
+                await _dbService.RetornaPrimeiro<string>(
+                    "SELECT DS_SALT FROM Usuarios WHERE DS_LOGIN = @ds_login",
+                    new { login });
             return result;
         }
     }
