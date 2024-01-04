@@ -26,8 +26,8 @@ namespace StockMasterfyAPI.Services
         {
             var result =
                 await _dbService.RetornaPrimeiro<Usuario>(
-                    "SELECT * FROM USUARIOS WHERE ds_login = @dslogin",
-                    new { login });
+                    "SELECT id, ds_nome, ds_login FROM USUARIOS WHERE DS_LOGIN = @DsLogin",
+                    new { DSLOGIN = login });
             return result;
         }
 
@@ -35,18 +35,21 @@ namespace StockMasterfyAPI.Services
         {
             var result =
                 await _dbService.RetornaPrimeiro<string>(
-                    "SELECT DS_HASHSENHA FROM Usuarios WHERE DS_LOGIN = @ds_login",
-                    new { login });
+                    "SELECT DS_HASHSENHA FROM Usuarios WHERE DS_LOGIN = @DsLogin",
+                    new { DsLogin = login });
             return result;
         }
 
-        public async Task<string> RecuperaSaltDoBanco(string login)
+        public async Task<bool> InsereUsuario(Usuario usuario)
         {
+            // Gerar o hash da senha combinada com o salt
+            string hashSenha = BCrypt.Net.BCrypt.HashPassword(usuario.Dssenha);
+
             var result =
-                await _dbService.RetornaPrimeiro<string>(
-                    "SELECT DS_SALT FROM Usuarios WHERE DS_LOGIN = @ds_login",
-                    new { login });
-            return result;
+                await _dbService.ExecutaComando(
+                    "INSERT INTO usuarios (DS_NOME, DS_LOGIN, DS_HASHSENHA) VALUES (@Dsnome, @Dslogin, @hashSenha)",
+                    new { usuario.Dsnome, usuario.Dslogin, hashSenha });
+            return true;
         }
     }
 }

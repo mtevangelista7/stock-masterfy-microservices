@@ -29,5 +29,14 @@ namespace StockMasterfyAPI.Services
 
             return result;
         }
+
+        public async Task<int> ExecutaComando(string querySQL, object parametros)
+        {
+            int result;
+
+            result = await _db.ExecuteAsync(querySQL, parametros);
+
+            return result;
+        }
     }
 }

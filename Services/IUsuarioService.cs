@@ -8,6 +8,6 @@ namespace StockMasterfyAPI.Services
         Task<List<Usuario>> RetornaUsuarios();
         Task<Usuario> RetornaUsuarioLogin(string login);
         Task<string> RecuperaHashSenhaDoBanco(string login);
-        Task<string> RecuperaSaltDoBanco(string login);
+        Task<bool> InsereUsuario(Usuario usuario);
     }
 }

@@ -41,12 +41,19 @@ namespace StockMasterfyAPI.Controllers
         {
             // Obter hash da senha e salt do banco de dados usando o login
             string hashSenhaArmazenado = await _usuarioService.RecuperaHashSenhaDoBanco(login);
-            string saltArmazenado = await _usuarioService.RecuperaSaltDoBanco(login);
 
-            // Verificar se a senha fornecida é válida
-            return !string.IsNullOrEmpty(hashSenhaArmazenado) &&
-                   !string.IsNullOrEmpty(saltArmazenado) &&
-                   BCrypt.Net.BCrypt.Verify(senhaDoUsuario, hashSenhaArmazenado + saltArmazenado);
+            bool senhaCorreta = !string.IsNullOrEmpty(hashSenhaArmazenado) &&
+                                BCrypt.Net.BCrypt.Verify(senhaDoUsuario, hashSenhaArmazenado);
+
+            return senhaCorreta;
+        }
+
+        [HttpPost("insere")]
+        public async Task<IActionResult> InsereUsuario([FromBody] Usuario usuario)
+        {
+            bool bUsuarioInserido = await _usuarioService.InsereUsuario(usuario);
+
+            return Ok(bUsuarioInserido);
         }
     }
 }
