@@ -1,6 +1,16 @@
 {
   "GlobalConfiguration": {},
   "Routes": [
-    {}
+    {
+      "UpstreamPathTemplate": "/ROTAAPIPUBLICA/{everything}",
+      "DownstreamPathTemplate": "/ROTAAPIPRIVADA/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "AQUI VAI A PORTA DA API"
+        }
+      ]
+    }
   ]
 }
